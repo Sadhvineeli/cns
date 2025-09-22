@@ -1,0 +1,14 @@
+import javax.crypto.*; import java.util.*;
+public class RC4 {
+  public static void main(String[] a) throws Exception {
+    var key = KeyGenerator.getInstance("ARCFOUR").generateKey();
+    var c = Cipher.getInstance("ARCFOUR");
+    String t = "HelloWorld";
+    c.init(Cipher.ENCRYPT_MODE, key);
+    var e = c.doFinal(t.getBytes());
+    c.init(Cipher.DECRYPT_MODE, key);
+    var d = c.doFinal(e);
+    System.out.println("Enc: " + Base64.getEncoder().encodeToString(e));
+    System.out.println("Dec: " + new String(d));
+  }
+}
