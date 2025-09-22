@@ -1,0 +1,32 @@
+4) RAIL FENCE – 
+import java.util.*;
+public class RailFence {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter text: ");
+        String text = sc.nextLine();
+        System.out.print("Enter number of rails: ");
+        int rails = sc.nextInt();
+        // Encrypt
+        StringBuilder[] r = new StringBuilder[rails]; for(int i=0;i<rails;i++) r[i]=new StringBuilder();
+        int row=0; boolean d=true;
+        for(char c:text.toCharArray()){ r[row].append(c); row+=d?1:-1; if(row==0||row==rails-1)d=!d; }
+        StringBuilder enc=new StringBuilder(); for(StringBuilder s:r) enc.append(s);
+        System.out.println("Encrypted: "+enc);
+        // Decrypt
+        int len=enc.length(), idx=0;
+        char[][] m=new char[rails][len]; boolean[][] mark=new boolean[rails][len];
+        row=0; d=true;
+        for(int i=0;i<len;i++){ mark[row][i]=true; row+=d?1:-1; if(row==0||row==rails-1)d=!d; }
+        for(int i=0;i<rails;i++) for(int j=0;j<len;j++) if(mark[i][j]) m[i][j]=enc.charAt(idx++);
+        StringBuilder dec=new StringBuilder();
+        row=0; d=true;
+        for(int i=0;i<len;i++){ dec.append(m[row][i]); row+=d?1:-1; if(row==0||row==rails-1)d=!d; }
+        System.out.println("Decrypted: "+dec);
+    }
+}
+OUTPUT  -
+Enter text: DIVYASREE
+Enter number of rails: 4
+Encrypted: DRISEVAEY
+Decrypted: DIVYASREE
