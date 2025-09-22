@@ -1,0 +1,19 @@
+public class Main {
+    static int[][] key = {{3,3},{2,5}}; // Example key matrix
+
+    public static void main(String[] args) {
+        String text = "HI"; // Plaintext must be multiple of 2
+        int[] p = {text.charAt(0)-'A', text.charAt(1)-'A'};
+        int c1 = (key[0][0]*p[0] + key[0][1]*p[1]) % 26;
+        int c2 = (key[1][0]*p[0] + key[1][1]*p[1]) % 26;
+        String cipher = "" + (char)(c1+'A') + (char)(c2+'A');
+        System.out.println("Encrypted: " + cipher);
+
+        // Decryption (using inverse matrix of key mod 26)
+        int[][] inv = {{15,17},{20,9}}; // Inverse of key mod 26
+        int[] c = {cipher.charAt(0)-'A', cipher.charAt(1)-'A'};
+        int p1 = (inv[0][0]*c[0] + inv[0][1]*c[1]) % 26;
+        int p2 = (inv[1][0]*c[0] + inv[1][1]*c[1]) % 26;
+        System.out.println("Decrypted: " + (char)(p1+'A') + (char)(p2+'A'));
+    }
+}
