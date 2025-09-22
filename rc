@@ -1,0 +1,38 @@
+5) ROW AND COLUMN TRANFORMATION – 
+import java.util.*;
+public class Transposition {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter message: ");
+        String msg = sc.nextLine().replaceAll("[^A-Za-z ]", "");
+        System.out.print("Enter key: ");
+        String key = sc.nextLine().toUpperCase();
+        // Create key order
+        Character[] kArr = new Character[key.length()];
+        for (int i = 0; i < key.length(); i++) kArr[i] = key.charAt(i);
+        Integer[] order = new Integer[key.length()];
+        for (int i = 0; i < key.length(); i++) order[i] = i;
+        Arrays.sort(order, Comparator.comparingInt(a -> kArr[a]));
+        // Encrypt
+        int col = key.length(), row = (int) Math.ceil((double) msg.length() / col);
+        char[][] mat = new char[row][col];
+        int idx = 0;
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                mat[i][j] = idx < msg.length() ? msg.charAt(idx++) : '_';
+        StringBuilder enc = new StringBuilder();
+        for (int o : order)
+            for (int i = 0; i < row; i++) enc.append(mat[i][o]);
+        System.out.println("Encrypted: " + enc);
+        // Decrypt
+        char[][] decMat = new char[row][col];
+        idx = 0;
+        for (int o : order)
+            for (int i = 0; i < row; i++) decMat[i][o] = enc.charAt(idx++);
+        StringBuilder dec = new StringBuilder();
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                if (decMat[i][j] != '_') dec.append(decMat[i][j]);
+        System.out.println("Decrypted: " + dec);
+    }
+}
