@@ -1,0 +1,15 @@
+import javax.crypto.*; import java.security.*; import java.util.*;
+public class RSA {
+  public static void main(String[] a) throws Exception {
+    var kp = KeyPairGenerator.getInstance("RSA"); kp.initialize(2048);
+    var p = kp.generateKeyPair();
+    var c = Cipher.getInstance("RSA");
+    String t = "HelloWorld";
+    c.init(Cipher.ENCRYPT_MODE, p.getPublic());
+    var e = c.doFinal(t.getBytes());
+    c.init(Cipher.DECRYPT_MODE, p.getPrivate());
+    var d = c.doFinal(e);
+    System.out.println("Enc: " + Base64.getEncoder().encodeToString(e));
+    System.out.println("Dec: " + new String(d));
+  }
+}
