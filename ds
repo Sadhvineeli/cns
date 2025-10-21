@@ -1,0 +1,22 @@
+import java.security.*;
+import java.util.*;
+
+public class DigitalSignature {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter message: ");
+        String msg = sc.nextLine();
+
+        KeyPair kp = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+        Signature sig = Signature.getInstance("SHA256withRSA");
+
+        sig.initSign(kp.getPrivate());
+        sig.update(msg.getBytes());
+        byte[] sign = sig.sign();
+
+        sig.initVerify(kp.getPublic());
+        sig.update(msg.getBytes());
+        System.out.println("\nSignature: " + Base64.getEncoder().encodeToString(sign));
+        System.out.println("Verified: " + sig.verify(sign));
+    }
+}
