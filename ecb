@@ -1,0 +1,30 @@
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
+public class Main {
+
+    // ONE FUNCTION for both encrypt & decrypt
+    public static void ecbMode(String text, String key) throws Exception {
+        SecretKeySpec skey = new SecretKeySpec(key.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+
+        // Encrypt
+        cipher.init(Cipher.ENCRYPT_MODE, skey);
+        String encrypted = Base64.getEncoder().encodeToString(cipher.doFinal(text.getBytes()));
+
+        // Decrypt
+        cipher.init(Cipher.DECRYPT_MODE, skey);
+        String decrypted = new String(cipher.doFinal(Base64.getDecoder().decode(encrypted)));
+
+        System.out.println("Plain Text : " + text);
+        System.out.println("Encrypted  : " + encrypted);
+        System.out.println("Decrypted  : " + decrypted);
+    }
+
+    public static void main(String[] args) throws Exception {
+        String key = "1234567890123456";   // 16-byte AES key
+        String text = "HELLOECBMODE";
+        ecbMode(text, key);
+    }
+}
